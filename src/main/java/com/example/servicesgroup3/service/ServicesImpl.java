@@ -28,14 +28,20 @@ public class ServicesImpl {
     // Get all service pagination,
     // int page is a current page
     // int size is a number of elements in a page
-    public Map<String, Object> getAllServicesByPage(int page, int size) {
+    public Map<String, Object> getAllServicesByPage(String type ,int page, int size) {
         Map<String, Object> res = new HashMap<>();
         try {
             List<Services> servicesList = new ArrayList<>();
             Pageable paging = PageRequest.of(page,size);
 
             Page<Services> servicesPage;
-            servicesPage = servicesRepository.findAll(paging); // paging based on the request of page and size from user
+
+            // paging based on the request of page and size from front-end
+            if (type == null) {
+                servicesPage = servicesRepository.findAll(paging);
+            } else {
+                servicesPage = servicesRepository.findAllByType(type, paging);
+            }
 
             servicesList = servicesPage.getContent(); // Assign paging content to list and then return to UI
 
