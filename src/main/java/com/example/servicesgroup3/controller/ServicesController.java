@@ -33,10 +33,11 @@ public class ServicesController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllServicesByPage (
+            @RequestParam(required = false) String type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
-        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(page,size), HttpStatus.OK);
+        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
