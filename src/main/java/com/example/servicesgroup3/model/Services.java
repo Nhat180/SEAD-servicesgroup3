@@ -20,6 +20,8 @@ public class Services {
 
     private String name;
 
+    private String type;
+
     private Integer cost;
 
     private Double rating;
