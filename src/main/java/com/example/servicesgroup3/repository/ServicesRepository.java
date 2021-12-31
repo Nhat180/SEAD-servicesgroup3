@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ServicesRepository extends JpaRepository<Services, Long> {
     Optional<Services> findByName (String name);
-    Page<Services> findAll (Pageable pageable);
+    Page<Services> findAllByType (String type, Pageable pageable);
 }
