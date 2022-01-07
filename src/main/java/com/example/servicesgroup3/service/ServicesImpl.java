@@ -34,18 +34,18 @@ public class ServicesImpl {
         Map<String, Object> res = new HashMap<>();
         try {
             List<Services> servicesList = new ArrayList<>();
-            List<Sort.Order> orders = new ArrayList<Order>();
+            List<Order> orders = new ArrayList<Order>();
 
             if (sort[0].contains(",")) {
                 // will sort more than 2 fields
                 // sortOrder="field, direction"
                 for (String sortOrder : sort) {
                     String[] _sort = sortOrder.split(",");
-                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+                    orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
                 }
             } else {
                 // sort=[field, direction]
-                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
+                orders.add(new Order(getSortDirection(sort[1]), sort[0]));
             }
 
 
