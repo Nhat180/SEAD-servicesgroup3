@@ -16,17 +16,17 @@ public class ServicesController {
     @Autowired
     private ServicesImpl servicesImpl;
 
-    @PostMapping("/admin/createservice")
+    @PostMapping
     public void createService(@RequestBody Services services) {
         servicesImpl.createService(services);
     }
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     public void updateService(@PathVariable(value = "id") Long id, @RequestBody Services services) {
         servicesImpl.updateService(id, services);
     }
 
-    @DeleteMapping("admin/{id}")
+    @DeleteMapping("/{id}")
     public void deleteService(@PathVariable(value = "id") Long id) {
         servicesImpl.deleteServices(id);
     }
@@ -35,9 +35,10 @@ public class ServicesController {
     public ResponseEntity<Map<String, Object>> getAllServicesByPage (
             @RequestParam(required = false) String type,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "serviceId,asc") String[] sort
     ) {
-        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size), HttpStatus.OK);
+        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size,sort), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
