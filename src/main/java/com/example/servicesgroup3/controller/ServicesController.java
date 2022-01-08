@@ -41,6 +41,15 @@ public class ServicesController {
         return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size,sort), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchService (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam String keyword
+    ) {
+        return new ResponseEntity<>(servicesImpl.searchService(page,size,keyword), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public Services getService (@PathVariable(value = "id") Long id) {
         return servicesImpl.getServices(id);
