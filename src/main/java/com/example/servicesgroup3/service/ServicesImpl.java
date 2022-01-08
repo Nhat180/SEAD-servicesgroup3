@@ -75,6 +75,31 @@ public class ServicesImpl {
         }
     }
 
+
+    public Map<String, Object> searchService(int page, int size, String keyword) {
+        Map<String, Object> res = new HashMap<>();
+        try {
+            List<Services> servicesList = new ArrayList<>();
+            Pageable paging = PageRequest.of(page,size);
+            Page<Services> servicesPage;
+            servicesPage = servicesRepository.search(keyword,paging);
+
+            servicesList = servicesPage.getContent(); // Assign paging content to list and then return to UI
+
+            res.put("services", servicesList);
+            res.put("currentPage", servicesPage.getNumber());
+            res.put("totalServices", servicesPage.getTotalElements());
+            res.put("totalPages", servicesPage.getTotalPages());
+
+            return res;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     // Get the specific service
     public Services getServices (Long id) {
         Services services = new Services();
@@ -94,6 +119,7 @@ public class ServicesImpl {
         services1.setServiceId(id);
         services1.setName(services.getName());
         services1.setCost(services.getCost());
+        services1.setType(services.getType());
         services1.setRating(services.getRating());
         this.servicesRepository.save(services1);
     }
