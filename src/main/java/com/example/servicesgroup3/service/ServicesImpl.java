@@ -30,22 +30,22 @@ public class ServicesImpl {
     // Get all service pagination,
     // int page is a current page
     // int size is a number of elements in a page
-    public Map<String, Object> getAllServicesByPage(String type ,int page, int size, String[] sort) {
+    public Map<String, Object> getAllServicesByPage(String type ,int page, int size, String[] sort, String keyword) {
         Map<String, Object> res = new HashMap<>();
         try {
             List<Services> servicesList = new ArrayList<>();
-            List<Order> orders = new ArrayList<Order>();
+            List<Sort.Order> orders = new ArrayList<Order>();
 
             if (sort[0].contains(",")) {
                 // will sort more than 2 fields
                 // sortOrder="field, direction"
                 for (String sortOrder : sort) {
                     String[] _sort = sortOrder.split(",");
-                    orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
+                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
                 }
             } else {
                 // sort=[field, direction]
-                orders.add(new Order(getSortDirection(sort[1]), sort[0]));
+                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
             }
 
 
@@ -55,40 +55,30 @@ public class ServicesImpl {
 
             // paging based on the request of page and size from front-end
             if (type == null) {
-                servicesPage = servicesRepository.findAll(paging);
+                if(keyword == null) {
+                    servicesPage = servicesRepository.findAll(paging);
+                } else {
+                    servicesPage = servicesRepository.search(keyword,paging);
+                }
+                servicesList = servicesPage.getContent();
             } else {
-                servicesPage = servicesRepository.findAllByType(type, paging);
+                if (keyword == null) {
+                    servicesPage = servicesRepository.findAllByType(type, paging);
+                    servicesList = servicesPage.getContent();
+                } else {
+                    servicesPage = servicesRepository.search(keyword,paging);
+                    for (int i = 0; i < servicesPage.getContent().size(); i++) {
+                        if (servicesPage.getContent().get(i).getType().equals(type)) {
+                            servicesList.add(servicesPage.getContent().get(i));
+                        }
+                    }
+                }
             }
 
-            servicesList = servicesPage.getContent(); // Assign paging content to list and then return to UI
 
             res.put("services", servicesList);
             res.put("currentPage", servicesPage.getNumber());
-            res.put("totalServices", servicesPage.getTotalElements());
-            res.put("totalPages", servicesPage.getTotalPages());
-
-            return res;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    public Map<String, Object> searchService(int page, int size, String keyword) {
-        Map<String, Object> res = new HashMap<>();
-        try {
-            List<Services> servicesList = new ArrayList<>();
-            Pageable paging = PageRequest.of(page,size);
-            Page<Services> servicesPage;
-            servicesPage = servicesRepository.search(keyword,paging);
-
-            servicesList = servicesPage.getContent(); // Assign paging content to list and then return to UI
-
-            res.put("services", servicesList);
-            res.put("currentPage", servicesPage.getNumber());
-            res.put("totalServices", servicesPage.getTotalElements());
+            res.put("totalServices", servicesList.size());
             res.put("totalPages", servicesPage.getTotalPages());
 
             return res;

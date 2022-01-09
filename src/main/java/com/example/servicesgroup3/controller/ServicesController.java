@@ -36,18 +36,10 @@ public class ServicesController {
             @RequestParam(required = false) String type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "serviceId,asc") String[] sort
+            @RequestParam(defaultValue = "serviceId,asc") String[] sort,
+            @RequestParam(required = false) String keyword
     ) {
-        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size,sort), HttpStatus.OK);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> searchService (
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam String keyword
-    ) {
-        return new ResponseEntity<>(servicesImpl.searchService(page,size,keyword), HttpStatus.OK);
+        return new ResponseEntity<>(servicesImpl.getAllServicesByPage(type,page,size,sort,keyword), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
