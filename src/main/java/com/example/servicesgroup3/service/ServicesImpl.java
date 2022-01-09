@@ -55,14 +55,14 @@ public class ServicesImpl {
 
             // paging based on the request of page and size from front-end
             if (type == null) {
-                if(keyword == null) {
+                if(keyword == null || keyword.equals("")) {
                     servicesPage = servicesRepository.findAll(paging);
                 } else {
                     servicesPage = servicesRepository.search(keyword,paging);
                 }
                 servicesList = servicesPage.getContent();
             } else {
-                if (keyword == null) {
+                if (keyword == null || keyword.equals("")) {
                     servicesPage = servicesRepository.findAllByType(type, paging);
                     servicesList = servicesPage.getContent();
                 } else {
@@ -78,7 +78,7 @@ public class ServicesImpl {
 
             res.put("services", servicesList);
             res.put("currentPage", servicesPage.getNumber());
-            res.put("totalServices", servicesList.size());
+            res.put("totalServices", servicesPage.getTotalElements());
             res.put("totalPages", servicesPage.getTotalPages());
 
             return res;
