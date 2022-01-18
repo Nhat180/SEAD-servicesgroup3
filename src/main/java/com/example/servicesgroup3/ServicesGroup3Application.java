@@ -12,7 +12,7 @@ import org.springframework.kafka.config.TopicBuilder;
 		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
 		org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class}
 )
-//@EnableCaching
+@EnableCaching
 public class ServicesGroup3Application {
 	final String TOPIC = "j71ep171-default";
 
