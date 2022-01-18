@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/service")
 public class ServicesKafkaController {
     static final Logger logger = LoggerFactory.getLogger(ServicesKafkaController.class);
