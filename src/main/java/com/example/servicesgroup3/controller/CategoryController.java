@@ -19,10 +19,10 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
-    public void createCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
-    }
+//    @PostMapping
+//    public void createCategory(@RequestBody Category category) {
+//        categoryService.addCategory(category);
+//    }
 
     @GetMapping
     public List<Category> getAllCategory() {
