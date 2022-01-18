@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class ServicesConsumer {
     final Logger logger = LoggerFactory.getLogger(ServicesConsumer.class);
     final String TOPIC = "SERVICES";
-    final String GROUP_ID = "CATEGORY_ID";
+    final String GROUP_ID = "SERVICEs_ID";
 
     @Autowired
     private ServicesImpl servicesImpl;
