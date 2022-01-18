@@ -10,10 +10,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/kafka/service")
+@RequestMapping("/service")
 public class ServicesKafkaController {
     static final Logger logger = LoggerFactory.getLogger(ServicesKafkaController.class);
-    final String TOPIC = "SERVICES";
+    final String TOPIC = "j71ep171-default";
 
     @Autowired
     private ServicesImpl servicesImpl;
@@ -28,7 +28,7 @@ public class ServicesKafkaController {
     public void createService(@RequestBody Services services) {
         String servicesJson = gson.toJson(services);
         logger.info(String.format("#### -> Produce created service -> %s", servicesJson));
-        kafkaTemplate.send(TOPIC + "_CREATE", servicesJson);
+        kafkaTemplate.send(TOPIC + "_SERVICE_CREATE", servicesJson);
     }
 
     @PutMapping("/{id}")
@@ -36,7 +36,7 @@ public class ServicesKafkaController {
         services.setServiceId(id);
         String servicesJson = gson.toJson(services);
         logger.info(String.format("#### -> Produce updated service ->%s", servicesJson));
-        kafkaTemplate.send(TOPIC + "_UPDATE", servicesJson);
+        kafkaTemplate.send(TOPIC + "_SERVICE_UPDATE", servicesJson);
     }
 
 //    @DeleteMapping("/{id}")

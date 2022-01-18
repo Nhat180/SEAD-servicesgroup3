@@ -1,6 +1,7 @@
 package com.example.servicesgroup3.controller;
 
 import com.example.servicesgroup3.model.Category;
+import com.example.servicesgroup3.model.Services;
 import com.example.servicesgroup3.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,4 +51,12 @@ public class CategoryController {
     public void deleteCategory(@PathVariable(value = "id") Long id) {
         categoryService.deleteCategory(id);
     }
+
+    @PostMapping("/many")
+    public void createManyServices(@RequestBody Category[] categoryArray) {
+        for (Category category : categoryArray) {
+            categoryService.addCategory(category);
+        }
+    }
+
 }

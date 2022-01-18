@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryConsumer {
     final Logger logger = LoggerFactory.getLogger(CategoryConsumer.class);
-    final String TOPIC = "CATEGORY";
+    final String TOPIC = "j71ep171-default";
     final String GROUP_ID = "CATEGORY_ID";
 
     @Autowired
@@ -21,14 +21,14 @@ public class CategoryConsumer {
     @Autowired
     private Gson gson;
 
-    @KafkaListener(topics = TOPIC + "_CREATE", groupId = GROUP_ID)
+    @KafkaListener(topics = TOPIC + "_CATE_CREATE", groupId = GROUP_ID)
     public void createCategory(String categoryJson) {
         Category category = gson.fromJson(categoryJson, Category.class);
         logger.info(String.format("#### -> Consume created category -> %s", categoryJson));
         categoryService.addCategory(category);
     }
 
-    @KafkaListener(topics = TOPIC + "_UPDATE", groupId = GROUP_ID)
+    @KafkaListener(topics = TOPIC + "_CATE_UPDATE", groupId = GROUP_ID)
     public void updateCategory(String categoryJson) {
         Category category = gson.fromJson(categoryJson, Category.class);
         logger.info(String.format("#### -> Consume updated category -> %s", categoryJson));
