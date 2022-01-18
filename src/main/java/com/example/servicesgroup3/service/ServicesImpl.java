@@ -3,14 +3,18 @@ package com.example.servicesgroup3.service;
 import com.example.servicesgroup3.model.Services;
 import com.example.servicesgroup3.repository.ServicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +23,13 @@ import java.util.Map;
 @Transactional
 @Service
 public class ServicesImpl {
+    final String SERVICE_CACHE = "Service";
+
     @Autowired
     private ServicesRepository servicesRepository;
+
+    @PostConstruct
+    public void initializeHashOperator() {}
 
     // Create a service, only for admin role
     public void createService (Services services) {
@@ -91,6 +100,7 @@ public class ServicesImpl {
 
 
     // Get the specific service
+    @Cacheable(value = SERVICE_CACHE, key = "#id")
     public Services getServices (Long id) {
         Services services = new Services();
         try {

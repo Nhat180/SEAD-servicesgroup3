@@ -3,6 +3,8 @@ package com.example.servicesgroup3.service;
 import com.example.servicesgroup3.model.Category;
 import com.example.servicesgroup3.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import java.util.Map;
 @Transactional
 @Service
 public class CategoryService {
+    final String CATEGORY_CACHE = "Category";
+
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -24,6 +28,7 @@ public class CategoryService {
         this.categoryRepository.save(category);
     }
 
+    @Cacheable(value = CATEGORY_CACHE, key = "#id")
     public Category getCategory (Long id) {
         Category category = new Category();
         try {
@@ -35,10 +40,12 @@ public class CategoryService {
         return category;
     }
 
+    @Cacheable(value = CATEGORY_CACHE)
     public List<Category> getAllCategory() {
         return this.categoryRepository.findAll();
     }
 
+    @Cacheable(value = CATEGORY_CACHE, key = "{#page, #size}")
     public Map<String, Object> getAllCategoryByPage(int page, int size) {
         Map<String, Object> res = new HashMap<>();
         try {
