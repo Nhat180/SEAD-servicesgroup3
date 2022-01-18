@@ -21,6 +21,13 @@ public class ServicesController {
         servicesImpl.createService(services);
     }
 
+    @PostMapping("/many")
+    public void createManyServices(@RequestBody Services[] servicesArray) {
+        for (Services services : servicesArray) {
+            servicesImpl.createService(services);
+        }
+    }
+
     @PutMapping("/{id}")
     public void updateService(@PathVariable(value = "id") Long id, @RequestBody Services services) {
         servicesImpl.updateService(id, services);
@@ -47,4 +54,8 @@ public class ServicesController {
         return servicesImpl.getServices(id);
     }
 
+    @GetMapping
+    public String hello() {
+        return "Hello world";
+    }
 }
