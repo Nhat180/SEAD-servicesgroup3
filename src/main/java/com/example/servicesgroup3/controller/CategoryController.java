@@ -18,10 +18,10 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
-    public void createCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
-    }
+//    @PostMapping
+//    public void createCategory(@RequestBody Category category) {
+//        categoryService.addCategory(category);
+//    }
 
     @GetMapping
     public List<Category> getAllCategory() {
@@ -41,14 +41,13 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.getAllCategoryByPage(page,size), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public void updateCategory(@PathVariable(value = "id") Long id, @RequestBody Category category) {
-        categoryService.updateCategory(id,category);
-    }
+//    @PutMapping("/{id}")
+//    public void updateCategory(@PathVariable(value = "id") Long id, @RequestBody Category category) {
+//        categoryService.updateCategory(id,category);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable(value = "id") Long id) {
         categoryService.deleteCategory(id);
     }
-
 }
