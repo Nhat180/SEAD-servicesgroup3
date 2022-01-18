@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServicesConsumer {
     final Logger logger = LoggerFactory.getLogger(ServicesConsumer.class);
-    final String TOPIC = "SERVICES";
-    final String GROUP_ID = "SERVICEs_ID";
+    final String TOPIC = "j71ep171-default";
+    final String GROUP_ID = "SERVICES_ID";
 
     @Autowired
     private ServicesImpl servicesImpl;
@@ -21,14 +21,14 @@ public class ServicesConsumer {
     @Autowired
     private Gson gson;
 
-    @KafkaListener(topics = TOPIC + "_CREATE", groupId = GROUP_ID)
+    @KafkaListener(topics = TOPIC + "_SERVICE_CREATE", groupId = GROUP_ID)
     public void createServices(String servicesJson) {
         Services services = gson.fromJson(servicesJson, Services.class);
         logger.info(String.format("#### -> Consume created service -> %s", servicesJson));
         servicesImpl.createService(services);
     }
 
-    @KafkaListener(topics = TOPIC + "_UPDATE", groupId = GROUP_ID)
+    @KafkaListener(topics = TOPIC + "_SERVICE_UPDATE", groupId = GROUP_ID)
     public void updateServices(String servicesJson) {
         Services services = gson.fromJson(servicesJson, Services.class);
         logger.info(String.format("#### -> Consume updated service -> %s", servicesJson));

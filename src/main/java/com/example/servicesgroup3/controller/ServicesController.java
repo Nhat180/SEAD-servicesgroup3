@@ -16,10 +16,10 @@ public class ServicesController {
     @Autowired
     private ServicesImpl servicesImpl;
 
-    @PostMapping
-    public void createService(@RequestBody Services services) {
-        servicesImpl.createService(services);
-    }
+//    @PostMapping
+//    public void createService(@RequestBody Services services) {
+//        servicesImpl.createService(services);
+//    }
 
     @PostMapping("/many")
     public void createManyServices(@RequestBody Services[] servicesArray) {
@@ -28,10 +28,10 @@ public class ServicesController {
         }
     }
 
-    @PutMapping("/{id}")
-    public void updateService(@PathVariable(value = "id") Long id, @RequestBody Services services) {
-        servicesImpl.updateService(id, services);
-    }
+//    @PutMapping("/{id}")
+//    public void updateService(@PathVariable(value = "id") Long id, @RequestBody Services services) {
+//        servicesImpl.updateService(id, services);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteService(@PathVariable(value = "id") Long id) {
@@ -52,10 +52,5 @@ public class ServicesController {
     @GetMapping("/{id}")
     public Services getService (@PathVariable(value = "id") Long id) {
         return servicesImpl.getServices(id);
-    }
-
-    @GetMapping
-    public String hello() {
-        return "Hello world";
     }
 }

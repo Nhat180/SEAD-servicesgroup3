@@ -10,10 +10,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/kafka/category")
+@RequestMapping("/category")
 public class CategoryKafkaController {
     static final Logger logger = LoggerFactory.getLogger(CategoryKafkaController.class);
-    final String TOPIC = "CATEGORY";
+    final String TOPIC = "j71ep171-default";
 
     @Autowired
     private CategoryService categoryService;
@@ -28,7 +28,7 @@ public class CategoryKafkaController {
     public void createCategory(@RequestBody Category category) {
         String categoryJson = gson.toJson(category);
         logger.info(String.format("#### -> Produce created category -> %s", categoryJson));
-        kafkaTemplate.send(TOPIC + "_CREATE", categoryJson);
+        kafkaTemplate.send(TOPIC + "_CATE_CREATE", categoryJson);
     }
 
     @PutMapping("/{id}")
@@ -36,7 +36,7 @@ public class CategoryKafkaController {
         category.setCategoryId(id);
         String categoryJson = gson.toJson(category);
         logger.info(String.format("#### -> Produce updated category -> %s", categoryJson));
-        kafkaTemplate.send(TOPIC + "_UPDATE", categoryJson);
+        kafkaTemplate.send(TOPIC + "_CATE_UPDATE", categoryJson);
     }
 
 //    @DeleteMapping("/{id}")
